@@ -1,0 +1,66 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:id="@+id/admin_layout">
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@android:color/white"
+         android:orientation="vertical"
+         android:gravity="center">
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/textView"
+             android:textAlignment="center"
+             android:text="Daftar Wahana"
+             style="@style/TextAppearance.MaterialComponents.Headline4" />
+
+         <SearchView
+             android:id="@+id/search"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="32dp"
+             android:layout_marginTop="16dp"
+             android:layout_marginEnd="32dp"
+             android:queryHint="Search by Name" />
+
+         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+             android:id="@+id/swipe_refresh"
+             android:layout_width="match_parent"
+             android:layout_height="480dp"
+             android:layout_marginStart="4dp"
+             android:layout_marginTop="16dp">
+
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/admin_rv"
+                 android:layout_width="0dp"
+                 android:layout_height="0dp"
+                 tools:listitem="@layout/item_wahana" />
+         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+             <Button
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/btn_addWahana"
+                 android:text="Add"
+                 android:backgroundTint="#2196F3"/>
+
+             <Button
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/btn_cancel"
+                 android:text="Back"
+                 android:layout_marginLeft="130dp"
+                 android:backgroundTint="#00BCD4"/>
+         </LinearLayout>
+     </LinearLayout>
+
+    </FrameLayout>

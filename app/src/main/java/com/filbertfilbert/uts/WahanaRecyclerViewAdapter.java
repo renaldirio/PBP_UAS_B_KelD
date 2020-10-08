@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyc
     private Context context;
     private List<Wahana> wahanaList;
     private List<Wahana> wahanaListFiltered;
+    public Boolean isClickable = true;
 
     public WahanaRecyclerViewAdapter (Context context, List<Wahana> userList) {
         this.context = context;
@@ -99,16 +101,21 @@ public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyc
         }
         @Override
         public void onClick(View v){
-            AppCompatActivity activity= (AppCompatActivity) v.getContext();
-            Wahana wahana = wahanaList.get(getAdapterPosition());
-            Bundle data = new Bundle();
-            data.putSerializable("pbp",wahana);
-            UpdateWahanaFragment updateFragment = new UpdateWahanaFragment();
-            updateFragment.setArguments(data);
-            activity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.admin_layout,updateFragment)
-                    .commit();
+            if(isClickable==true){
+                AppCompatActivity activity= (AppCompatActivity) v.getContext();
+                Wahana wahana = wahanaList.get(getAdapterPosition());
+                Bundle data = new Bundle();
+                data.putSerializable("pbp",wahana);
+                UpdateWahanaFragment updateFragment = new UpdateWahanaFragment();
+                updateFragment.setArguments(data);
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.admin_layout,updateFragment)
+                        .commit();
+            }else{
+                Toast.makeText(context, "Yey berhasil", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 

@@ -32,7 +32,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="460dp"
+            android:layout_height="450dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp">
 
@@ -45,6 +45,34 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <Button
+            android:id="@+id/btn_find_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FF0000"
+            android:text="FIND ME" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
+        <Button
+            android:id="@+id/btn_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="#FF0000"
+            android:text="HOME" />
+        <Button
+            android:id="@+id/btn_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="190dp"
+            android:layout_gravity="right"
+            android:backgroundTint="#FF0000"
+            android:text="PROFILE" />
+    </LinearLayout>
 
     </LinearLayout>
 

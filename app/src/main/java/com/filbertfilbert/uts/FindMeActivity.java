@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -56,7 +57,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacem
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 
 public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, PermissionsListener {
-
+    // variables for adding location layer
     private MapView mapView;
     private MapboxMap mapboxMap;
     // variables for adding location layer
@@ -70,15 +71,16 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
     private Button button;
     private FloatingActionButton searchfab;
 
-
+    @SuppressLint("Range")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
+        Mapbox.getInstance(this, getString(R.string.mapbox_access_token ));
         setContentView(R.layout.activity_find_me);
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        button = findViewById(R.id.startButton);
         searchfab = findViewById(R.id.fab_location_search);
         searchfab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +95,7 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivityForResult(intent,1);
             }
         });
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -136,17 +139,31 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
-        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-                locationComponent.getLastKnownLocation().getLatitude());
-        Point destinationPoint = Point.fromLngLat(3.203393,90);
-        getRoute(originPoint,destinationPoint);
         mapboxMap.setStyle(getString(R.string.navigation_guidance_day), new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
                 addDestinationIconSymbolLayer(style);
+
+                LatLng point = new LatLng(3.632199,98.705705);
+                Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+                Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
+                        locationComponent.getLastKnownLocation().getLatitude());
+
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                        new CameraPosition.Builder()
+                                .target(point)
+                                .zoom(14)
+                                .build()),3000);
+                GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
+                if (source != null) {
+                    source.setGeoJson(Feature.fromGeometry(destinationPoint));
+                }
+                getRoute(originPoint,destinationPoint);
+                button.setEnabled(true);
+                button.setBackgroundResource(R.color.mapboxBlue);
+
                 mapboxMap.addOnMapClickListener(FindMeActivity.this);
-                button = findViewById(R.id.startButton);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -175,6 +192,7 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
                 iconIgnorePlacement(true)
         );
         loadedMapStyle.addLayer(destinationSymbolLayer);
+
     }
 
     @SuppressWarnings( {"MissingPermission"})
@@ -193,6 +211,20 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
         button.setEnabled(true);
         button.setBackgroundResource(R.color.mapboxBlue);
         return true;
+    }
+
+    public void tampilLokasi(@NonNull LatLng point){
+        Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
+                locationComponent.getLastKnownLocation().getLatitude());
+
+        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
+        if (source != null) {
+            source.setGeoJson(Feature.fromGeometry(destinationPoint));
+        }
+        getRoute(originPoint,destinationPoint);
+        button.setEnabled(true);
+        button.setBackgroundResource(R.color.mapboxBlue);
     }
 
     private void getRoute(Point origin, Point destination) {
@@ -310,7 +342,5 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
-
 
 }

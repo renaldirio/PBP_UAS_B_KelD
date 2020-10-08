@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout refreshLayout;
     SearchView searchView;
     WahanaRecyclerViewAdapter adapter;
-    Button btnLogout,btnProfile;
+    Button btnLogout,btnProfile,btnFindme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnProfile = findViewById(R.id.btn_profile);
         btnLogout = findViewById(R.id.btn_logout);
+        btnFindme = findViewById(R.id.btn_find_me);
         recyclerView=findViewById(R.id.user_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -67,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+            }
+        });
+
+        btnFindme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity( new Intent(MainActivity.this,FindMeActivity.class));
             }
         });
     }

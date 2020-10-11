@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.filbertfilbert.uts.database.DatabaseClient;
+import com.filbertfilbert.uts.model.Wahana;
 import com.google.android.material.textfield.TextInputEditText;
 
 /**
@@ -99,8 +101,6 @@ public class AddFragment extends Fragment {
 
         btnAdd = view.findViewById(R.id.btn_update);
         btnCancel=view.findViewById(R.id.btn_cancel);
-
-
         return view;
     }
 

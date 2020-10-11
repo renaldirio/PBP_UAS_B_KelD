@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
             }
         });
+
         btnAdmin = findViewById(R.id.btn_admin);
         btnAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Email or Password cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if(password.length() < 6){
                     Toast.makeText(LoginActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
                     return;

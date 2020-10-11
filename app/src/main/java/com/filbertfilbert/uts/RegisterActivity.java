@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     Toast.makeText(RegisterActivity.this, "Email Invalid", Toast.LENGTH_SHORT).show();
                     return;
                 }

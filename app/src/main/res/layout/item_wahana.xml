@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="wahana"
+            type="com.filbertfilbert.uts.model.Wahana" />
+        <variable
+            name="activity"
+            type="com.filbertfilbert.uts.MainActivity" />
+    </data>
     <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
         android:layout_marginBottom="3dp"
+        tools:context=".RecyclerViewAdapter"
         android:id="@+id/ParentAdapter">
 
         <LinearLayout
@@ -23,7 +33,6 @@
                     android:id="@+id/ivFotoProfil">
                 </ImageView>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,48 +43,55 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
-                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:id="@+id/txtnamaWahana"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
+                        android:layout_marginLeft="7dp"
+                        android:text="@{wahana.namaWahana}"
                         android:textStyle="bold"
-                        android:id="@+id/txtnamaWahana"/>
+                        android:textSize="12dp"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/txtalamatWahana"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:layout_marginLeft="7dp"
+                        android:text="@{wahana.alamatWahana}"
+                        android:textSize="12dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/txtratingWahana"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="@{wahana.ratingWahana}"
+                        android:textSize="12dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/hargaWahana"
                         android:textStyle="bold"
-                        android:id="@+id/txtalamatWahana"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="@{Double.toString(wahana.hargaWahana)}"
+                        android:textSize="12dp"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:id="@+id/txtratingWahana"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:id="@+id/hargaWahana"/>
-                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
+</layout>

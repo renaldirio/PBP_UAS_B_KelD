@@ -1,4 +1,4 @@
-package com.filbertfilbert.uts;
+package com.filbertfilbert.uts.database;
 
 import android.content.Context;
 

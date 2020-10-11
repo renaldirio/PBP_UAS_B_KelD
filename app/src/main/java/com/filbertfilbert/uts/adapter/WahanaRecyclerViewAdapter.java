@@ -1,4 +1,4 @@
-package com.filbertfilbert.uts;
+package com.filbertfilbert.uts.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.filbertfilbert.uts.R;
+import com.filbertfilbert.uts.UpdateWahanaFragment;
+import com.filbertfilbert.uts.databinding.ItemWahanaBinding;
+import com.filbertfilbert.uts.model.Wahana;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +40,18 @@ public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyc
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_wahana, parent, false);
-        return new UserViewHolder(view);
+        ItemWahanaBinding adapterRecyclerViewBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()), R.layout.item_wahana, parent, false);
+
+        UserViewHolder UserViewHolder = new UserViewHolder(adapterRecyclerViewBinding);
+        return UserViewHolder;
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        Wahana wahana = wahanaListFiltered.get(position);
-        holder.txtnamaWahana.setText(wahana.getNamaWahana());
-        holder.txtalamatWahana.setText(wahana.getAlamatWahana());
-        holder.txtratingWahana.setText(wahana.getRatingWahana());
-        holder.txtHargaWahana.setText(String.valueOf(wahana.getHargaWahana()));
+    public void onBindViewHolder(@NonNull UserViewHolder holder, final int position) {
+        final Wahana wahana = wahanaList.get(position);
+        holder.adapterRecyclerViewBinding.setWahana(wahana);
     }
 
     @Override
@@ -88,35 +95,17 @@ public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyc
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView txtnamaWahana, txtalamatWahana, txtratingWahana,txtHargaWahana;
+        ItemWahanaBinding adapterRecyclerViewBinding;
 
-        public UserViewHolder(@NonNull View itemView) {
-            super(itemView);
-            txtnamaWahana = itemView.findViewById(R.id.txtnamaWahana);
-            txtalamatWahana = itemView.findViewById(R.id.txtalamatWahana);
-            txtratingWahana = itemView.findViewById(R.id.txtratingWahana);
-            txtHargaWahana = itemView.findViewById(R.id.hargaWahana);
-
-            itemView.setOnClickListener(this);
-        }
-        @Override
-        public void onClick(View v){
-            if(isClickable==true){
-                AppCompatActivity activity= (AppCompatActivity) v.getContext();
-                Wahana wahana = wahanaList.get(getAdapterPosition());
-                Bundle data = new Bundle();
-                data.putSerializable("pbp",wahana);
-                UpdateWahanaFragment updateFragment = new UpdateWahanaFragment();
-                updateFragment.setArguments(data);
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.admin_layout,updateFragment)
-                        .commit();
-            }else{
-                Toast.makeText(context, "Yey berhasil", Toast.LENGTH_SHORT).show();
+        public UserViewHolder(@NonNull ItemWahanaBinding adapterRecyclerViewBinding){
+                super(adapterRecyclerViewBinding.getRoot());
+                this.adapterRecyclerViewBinding = adapterRecyclerViewBinding;
             }
 
+            public void onClick(View view) {
+                Toast.makeText(context, "You touch me?", Toast.LENGTH_SHORT).show();
+
+            }
         }
-    }
 
 }

@@ -1,5 +1,6 @@
-package com.filbertfilbert.uts;
+package com.filbertfilbert.uts.model;
 
+import androidx.databinding.BaseObservable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -7,7 +8,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity
-public class Wahana implements Serializable {
+public class Wahana extends BaseObservable implements Serializable{
     @PrimaryKey(autoGenerate = true)
     int id;
 
@@ -22,6 +23,14 @@ public class Wahana implements Serializable {
 
     @ColumnInfo(name = "hargaWahana")
     public Double hargaWahana;
+
+    public Wahana(int id, String namaWahana, String alamatWahana, String ratingWahana, Double hargaWahana) {
+        this.id = id;
+        this.namaWahana = namaWahana;
+        this.alamatWahana = alamatWahana;
+        this.ratingWahana = ratingWahana;
+        this.hargaWahana = hargaWahana;
+    }
 
     public Double getHargaWahana() {
         return hargaWahana;

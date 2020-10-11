@@ -3,17 +3,21 @@ package com.filbertfilbert.uts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -57,7 +61,8 @@ public class ProfileActivity extends AppCompatActivity {
     Button btnHome, btnCamera,btnGallery,btnLogout;
     String userID,currentPhotoPath;
     ImageView fotoProfil;
-    StorageReference storageReference,profileRef;
+    StorageReference storageReference;
+    private static String CHANNEL_ID = "Channel 1";
 
 
 
@@ -80,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
         fstore= FirebaseFirestore.getInstance();
         userID=fauth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
+
         StorageReference profileRef = storageReference.child("users/"+fauth.getCurrentUser().getUid()+"profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -93,10 +99,15 @@ public class ProfileActivity extends AppCompatActivity {
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                txtNamaUser.setText(documentSnapshot.getString("Nama"));
-                txtAlamatUser.setText(documentSnapshot.getString("Alamat"));
-                txtEmailUser.setText(documentSnapshot.getString("Email"));
-                txtNomorTelpUser.setText(documentSnapshot.getString("Nomor Telefon"));
+                if (e!=null){
+                    Log.d("TAG","Error:"+e.getMessage());
+                }else{
+                    txtNamaUser.setText(documentSnapshot.getString("Nama"));
+                    txtAlamatUser.setText(documentSnapshot.getString("Alamat"));
+                    txtEmailUser.setText(documentSnapshot.getString("Email"));
+                    txtNomorTelpUser.setText(documentSnapshot.getString("Nomor Telefon"));
+                }
+
             }
         });
 
@@ -127,6 +138,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                createNotificationChannel();
+                addNotification();
                 startActivity(new Intent(ProfileActivity.this,LoginActivity.class));
                 finish();
             }
@@ -184,6 +197,27 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.filbertfilbert.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+            }
+        }
+    }
     private String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -209,27 +243,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.filbertfilbert.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-            }
-        }
-    }
 
     private void uploadImageToFirebase(Uri imageUri) {
         final StorageReference fileRef = storageReference.child("users/"+fauth.getCurrentUser().getUid()+"profile.jpg");
@@ -252,4 +265,31 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void createNotificationChannel () {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name ="Channel 1";
+            String description ="This is Channel 1";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void addNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ProfileActivity.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Berhasil")
+                .setContentText("Logout")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Intent notificationIntent = new Intent( this, ProfileActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivities(this, 0, new Intent[]{notificationIntent}, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+
+    }
 }

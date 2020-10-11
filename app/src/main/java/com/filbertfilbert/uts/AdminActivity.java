@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
+
+import com.filbertfilbert.uts.database.DatabaseClient;
+import com.filbertfilbert.uts.model.Wahana;
 
 import java.util.List;
 

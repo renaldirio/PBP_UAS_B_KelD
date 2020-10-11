@@ -29,21 +29,12 @@
             android:layout_marginEnd="32dp"
             android:queryHint="Search by Name" />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_wahana"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/user_rv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:clickable="false"
-                tools:listitem="@layout/item_wahana" />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_height="457dp"
+            android:clickable="false"
+            tools:listitem="@layout/item_wahana" />
 
         <Button
             android:id="@+id/btn_find_me"
@@ -52,27 +43,27 @@
             android:backgroundTint="#FF0000"
             android:text="FIND ME" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
-        <Button
-            android:id="@+id/btn_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="#FF0000"
-            android:text="HOME" />
-        <Button
-            android:id="@+id/btn_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="190dp"
-            android:layout_gravity="right"
-            android:backgroundTint="#FF0000"
-            android:text="PROFILE" />
-    </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp">
+            <Button
+                android:id="@+id/btn_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:backgroundTint="#FF0000"
+                android:text="HOME" />
+            <Button
+                android:id="@+id/btn_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="190dp"
+                android:layout_gravity="right"
+                android:backgroundTint="#FF0000"
+                android:text="PROFILE" />
+        </LinearLayout>
 
     </LinearLayout>
 

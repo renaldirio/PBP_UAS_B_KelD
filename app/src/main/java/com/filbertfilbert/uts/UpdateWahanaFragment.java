@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.filbertfilbert.uts.database.DatabaseClient;
+import com.filbertfilbert.uts.model.Wahana;
 import com.google.android.material.textfield.TextInputEditText;
 
 /**

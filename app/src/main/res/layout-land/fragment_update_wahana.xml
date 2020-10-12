@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.MaterialComponents.Headline4"
-            android:text="Add Wahana"/>
+            android:text="Edit Wahana"/>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:id="@+id/input_namaWahana_layout"
@@ -79,24 +79,34 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/btn_cancel"
-                android:text="Cancel"
+                android:text="cancel"
                 android:layout_weight="0.8"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="#00BCD4"/>
+                android:backgroundTint="#00BCD4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/btn_update"
-                android:text="Add"
+                android:text="update"
                 android:layout_weight="0.8"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="#2196F3"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:text="delete"
+                android:layout_weight="0.8"
+                android:backgroundTint="#FF0000"
+                android:layout_marginEnd="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -45,18 +45,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
-//          binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-//
-//            whn = new Wahana();
-//            binding.setWahana(whn);
-//            binding.setActivity(this);
-        //setContentView(R.layout.activity_main);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding..setLayoutManager(new LinearLayoutManager(this));
-        binding.recyclerViewWahana.setHasFixedSize(true);
+          setContentView(R.layout.activity_main);
 
-        //get data mahasiswa
-        ListWahana = new ObservableArrayList<>();
+
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+//        binding..setLayoutManager(new LinearLayoutManager(this));
+//        binding.recyclerViewWahana.setHasFixedSize(true);
+//
+//        //get data mahasiswa
+//        ListWahana = new ObservableArrayList<>();
 
         //recycler view
         recyclerView = findViewById(R.id.recycler_view_wahana);
@@ -66,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String CHANNEL_ID = "Channel 1";
@@ -95,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
 
-        refreshLayout=findViewById(R.id.swipe_refresh);
+        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -121,14 +116,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        btnProfile=findViewById(R.id.btn_profile);
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this,ProfileActivity.class));
             }
         });
-
+        btnFindme=findViewById(R.id.btn_find_me);
         btnFindme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

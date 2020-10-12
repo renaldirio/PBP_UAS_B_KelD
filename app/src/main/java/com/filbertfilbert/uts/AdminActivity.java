@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.filbertfilbert.uts.adapter.WahanaRecyclerViewAdapter;
 import com.filbertfilbert.uts.database.DatabaseClient;
 import com.filbertfilbert.uts.model.Wahana;
 

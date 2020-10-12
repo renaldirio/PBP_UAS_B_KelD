@@ -24,6 +24,8 @@ public class Wahana extends BaseObservable implements Serializable{
     @ColumnInfo(name = "hargaWahana")
     public Double hargaWahana;
 
+public Wahana(){}
+
     public Wahana(int id, String namaWahana, String alamatWahana, String ratingWahana, Double hargaWahana) {
         this.id = id;
         this.namaWahana = namaWahana;

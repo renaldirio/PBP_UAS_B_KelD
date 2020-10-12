@@ -19,9 +19,9 @@ public class SplashActivity extends AppCompatActivity {
                 .withTargetActivity(LoginActivity.class)
                 .withSplashTimeOut(1000)
                 .withBackgroundColor(Color.parseColor("#000000"))
-                .withAfterLogoText("NAMA LOGO")
+                .withAfterLogoText("Wahana Wisata")
                 .withLogo(R.drawable.ic_android_black_24dp)
-                .withFooterText("WAHANA");
+                .withFooterText("Kelompok H");
         config.getAfterLogoTextView().setTextColor(Color.WHITE);
         config.getFooterTextView().setTextColor(Color.WHITE);
         View easySplashScreen = config.create();

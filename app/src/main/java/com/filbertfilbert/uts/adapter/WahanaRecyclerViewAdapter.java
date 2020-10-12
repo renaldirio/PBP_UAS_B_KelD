@@ -50,7 +50,7 @@ public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyc
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, final int position) {
-        final Wahana wahana = wahanaList.get(position);
+        final Wahana wahana = wahanaListFiltered.get(position);
         holder.adapterRecyclerViewBinding.setWahana(wahana);
     }
 
@@ -100,12 +100,25 @@ public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyc
         public UserViewHolder(@NonNull ItemWahanaBinding adapterRecyclerViewBinding){
                 super(adapterRecyclerViewBinding.getRoot());
                 this.adapterRecyclerViewBinding = adapterRecyclerViewBinding;
+                itemView.setOnClickListener(this);
             }
 
-            public void onClick(View view) {
-                Toast.makeText(context, "You touch me?", Toast.LENGTH_SHORT).show();
-
+        public void onClick(View v){
+            if(isClickable==true){
+                AppCompatActivity activity= (AppCompatActivity) v.getContext();
+                Wahana wahana = wahanaList.get(getAdapterPosition());
+                Bundle data = new Bundle();
+                data.putSerializable("pbp",wahana);
+                UpdateWahanaFragment updateFragment = new UpdateWahanaFragment();
+                updateFragment.setArguments(data);
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.admin_layout,updateFragment)
+                        .commit();
+            }else{
+                Toast.makeText(context, "Yey berhasil", Toast.LENGTH_SHORT).show();
             }
+        }
         }
 
 }

@@ -73,7 +73,7 @@
                 android:id="@+id/input_hargaWahana"
                 android:autofillHints=""
                 android:hint="Input Harga Wahana"
-                android:inputType="text"/>
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout

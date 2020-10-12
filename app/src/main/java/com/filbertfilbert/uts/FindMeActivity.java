@@ -145,7 +145,7 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
                 enableLocationComponent(style);
                 addDestinationIconSymbolLayer(style);
 
-                LatLng point = new LatLng(3.632199,98.705705);
+                LatLng point = new LatLng(-6.128151,106.844935);
                 Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
                 Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
                         locationComponent.getLastKnownLocation().getLatitude());

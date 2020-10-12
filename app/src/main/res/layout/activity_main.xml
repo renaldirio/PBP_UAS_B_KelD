@@ -29,12 +29,19 @@
             android:layout_marginEnd="32dp"
             android:queryHint="Search by Name" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_wahana"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="457dp"
-            android:clickable="false"
-            tools:listitem="@layout/item_wahana" />
+            android:layout_height="450dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_wahana"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clickable="false"
+                tools:listitem="@layout/item_wahana" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <Button
             android:id="@+id/btn_find_me"
@@ -47,7 +54,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="25dp">
             <Button
                 android:id="@+id/btn_home"
                 android:layout_width="wrap_content"

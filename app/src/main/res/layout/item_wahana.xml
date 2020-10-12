@@ -6,9 +6,6 @@
         <variable
             name="wahana"
             type="com.filbertfilbert.uts.model.Wahana" />
-        <variable
-            name="activity"
-            type="com.filbertfilbert.uts.MainActivity" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

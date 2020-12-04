@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
-                        android:text="Nama : "/>
+                        android:text="Nama      : "/>
 
                     <TextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
-                        android:text="Alamat : "/>
+                        android:text="Alamat    : "/>
                     <TextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
                         android:layout_width="wrap_content"
@@ -88,12 +88,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="7dp">
+
                     <TextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="Email : "/>
+                        android:text="Email       : "
+                        android:textSize="15dp" />
                     <TextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
                         android:layout_width="wrap_content"
@@ -112,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
-                        android:text="No. Telp : "/>
+                        android:text="No. Telp  : "/>
                     <TextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
                         android:layout_width="wrap_content"
@@ -146,11 +147,19 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_logout"
+        android:id="@+id/btn_editProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:backgroundTint="#00BCD4"
+        android:text="EDIT PROFILE" />
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
         android:backgroundTint="#00BCD4"
         android:text="LOGOUT" />
     
@@ -158,7 +167,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="280dp">
+        android:layout_marginTop="230dp">
         <Button
             android:id="@+id/btn_home"
             android:layout_width="wrap_content"

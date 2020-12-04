@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -48,14 +49,11 @@ public class RegisterActivity extends AppCompatActivity {
         txtNomorTelpUser = findViewById(R.id.input_nomortelp_user);
         btnRegister = findViewById(R.id.btn_register);
         txtLogin = findViewById(R.id.txt_login);
+
+        //Inisialisasi layanan firebase
         fauth = FirebaseAuth.getInstance();
         fstore= FirebaseFirestore.getInstance();
 
-        if(fauth.getCurrentUser() != null){
-            //Jika ada, maka halaman akan langsung berpidah pada MainActivity
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        }
         txtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,26 +69,52 @@ public class RegisterActivity extends AppCompatActivity {
                 final String alamatUser = txtAlamatUser.getText().toString();
                 final String nomorTelpUser = txtNomorTelpUser .getText().toString();
 
-                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(RegisterActivity.this, "Email or Password cannot be empty", Toast.LENGTH_SHORT).show();
+                //Mengecek apakah inputan kosong atau tidak
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) ||
+                    TextUtils.isEmpty(namaUser) || TextUtils.isEmpty(alamatUser) ||
+                    TextUtils.isEmpty(nomorTelpUser) ) {
+                    Toast.makeText(RegisterActivity.this, "All input cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                //Mengecek apakah inputan password kurang dari 6 karakter
                 if(password.length() < 6){
                     Toast.makeText(RegisterActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                //Mengecek apakah inputan email sesuai dengan format yang benar
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     Toast.makeText(RegisterActivity.this, "Email Invalid", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                //Membuat akun user menggunakan firebase authentication
                 fauth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_SHORT).show();
+                            FirebaseUser fuser = fauth.getCurrentUser();
+                            fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(RegisterActivity.this, "Register Successful and Email is Sent", Toast.LENGTH_SHORT).show();
+                                   txtEmailUser.setText("");
+                                    txtPasswordUser.setText("");
+                                    txtNamaUser.setText("");
+                                    txtAlamatUser.setText("");
+                                    txtNomorTelpUser.setText("");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(RegisterActivity.this, "Email is not Sent", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             userID = fauth.getCurrentUser().getUid();
+                            //Mengupload data yang telah diinputkan ke firebase firestore
+                            //dengan users sebagai nama foldernya dan nama file yang berisikan data user
+                            //adalah userID atau UID
                             DocumentReference documentReference = fstore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
                             user.put("Nama",namaUser);
@@ -108,7 +132,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     Log.d(TAG, "onFailure: "+ e.toString());
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                            Intent loginIntent = new Intent(RegisterActivity.this,LoginActivity.class);
+                            startActivity(loginIntent);
                         }else {
                             Toast.makeText(RegisterActivity.this, "Register Failed", Toast.LENGTH_SHORT).show();
                         }

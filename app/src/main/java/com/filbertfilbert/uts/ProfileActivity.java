@@ -58,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txtNamaUser,txtAlamatUser,txtNomorTelpUser,txtEmailUser;
     FirebaseAuth fauth;
     FirebaseFirestore fstore;
-    Button btnHome, btnCamera,btnGallery,btnLogout;
+    Button btnHome, btnCamera,btnGallery,btnLogout,btnEditProfile;
     String userID,currentPhotoPath;
     ImageView fotoProfil;
     StorageReference storageReference;
@@ -71,21 +71,26 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         fotoProfil = findViewById(R.id.ivFotoProfil);
+        btnHome = findViewById(R.id.btn_home);
         btnCamera = findViewById(R.id.btn_camera);
         btnGallery = findViewById(R.id.btn_gallery);
-        btnHome = findViewById(R.id.btn_home);
         btnLogout = findViewById(R.id.btn_logout);
+        btnEditProfile = findViewById(R.id.btn_editProfile);
         txtEmailUser = findViewById(R.id.txtEmailUser);
         txtNamaUser = findViewById(R.id.txtNamaUser);
         txtAlamatUser = findViewById(R.id.txtAlamatUser);
         txtNomorTelpUser = findViewById(R.id.txtNomorTelpUser);
 
-
+        //Inisialisasi Layanan Firebase
         fauth = FirebaseAuth.getInstance();
         fstore= FirebaseFirestore.getInstance();
-        userID=fauth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        //Mengambil UID user sebagai acuan untuk nama file, untuk upload dan download
+        userID=fauth.getCurrentUser().getUid();
+
+        //Menggunakan UID user untuk pencarian file,
+        // fungsi ini untuk load foto dari firebase menggunakan Picasso dan firebase storage
         StorageReference profileRef = storageReference.child("users/"+fauth.getCurrentUser().getUid()+"profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -94,7 +99,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
+        //Menggunakan UID user untuk pencarian file,
+        // fungsi ini untuk load data user dari firebase menggunakan firebase firestore
         DocumentReference documentReference = fstore.collection("users").document(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -122,13 +128,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(ProfileActivity.this, "Testing Camera Button", Toast.LENGTH_SHORT).show();
-                askCameraPermissions();
+                askCameraPermissions();//Meminta permission camera
             }
         });
 
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Menggunakan Intent yang akan langsung membawa ke Gallery user
                 Intent gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(gallery, GALLERY_REQUEST_CODE);
             }
@@ -137,6 +144,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Mengeluarkan user dari aplikasi menggunakan firebase Authentication
+                //dan memberikan notifikasi kalau user sudah berhasil keluar
                 FirebaseAuth.getInstance().signOut();
                 createNotificationChannel();
                 addNotification();
@@ -145,38 +154,16 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editProfile = new Intent(ProfileActivity.this,EditProfileActivity.class);
+                startActivity(editProfile);
+            }
+        });
+
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                File f = new File(currentPhotoPath);
-
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                Uri contentUri = Uri.fromFile(f);
-                mediaScanIntent.setData(contentUri);
-                this.sendBroadcast(mediaScanIntent);
-
-                fotoProfil.setImageURI(contentUri);
-                uploadImageToFirebase(contentUri);
-            }
-        }
-
-            if (requestCode == GALLERY_REQUEST_CODE) {
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri imageUri = data.getData();
-                    fotoProfil.setImageURI(imageUri);
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                    String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(imageUri);
-                    Log.d("tag", "On Activity Result is : " + imageFileName);
-                    uploadImageToFirebase(imageUri);
-
-                }
-            }
-
-    }
     private void askCameraPermissions() {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
@@ -199,7 +186,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
+        // Memastikan ada Activity Camera
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
@@ -208,7 +195,7 @@ public class ProfileActivity extends AppCompatActivity {
             } catch (IOException ex) {
 
             }
-            // Continue only if the File was successfully created
+           //Mengecek apakah file foto kosong atau tidak
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.filbertfilbert.android.fileprovider",
@@ -230,21 +217,49 @@ public class ProfileActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
-        // Save a file: path for use with ACTION_VIEW intents
+        //Menyimpan path foto untuk mengakses file pada onActivityResult ( Line 223 )
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE) { //Jika user memilih tombol camera
+            if (resultCode == Activity.RESULT_OK) {
+                File f = new File(currentPhotoPath);
 
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri contentUri = Uri.fromFile(f);
+                mediaScanIntent.setData(contentUri);
+                this.sendBroadcast(mediaScanIntent);
+
+                fotoProfil.setImageURI(contentUri);
+                uploadImageToFirebase(contentUri);
+            }
+        }
+
+            if (requestCode == GALLERY_REQUEST_CODE) {//Jika user memilih tombol gallery
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri imageUri = data.getData();
+                    fotoProfil.setImageURI(imageUri);
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(imageUri);
+                    Log.d("tag", "On Activity Result is : " + imageFileName);
+                    uploadImageToFirebase(imageUri);
+
+                }
+            }
+
+    }
 
     private void uploadImageToFirebase(Uri imageUri) {
+        //Menginisialisasi tempat dimana foto akan diupload berserta nama foto
         final StorageReference fileRef = storageReference.child("users/"+fauth.getCurrentUser().getUid()+"profile.jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -253,6 +268,7 @@ public class ProfileActivity extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        //Mengdownload foto yang sudah diupload
                         Picasso.get().load(uri).into(fotoProfil);
                     }
                 });

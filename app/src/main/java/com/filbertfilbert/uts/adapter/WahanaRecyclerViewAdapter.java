@@ -23,8 +23,7 @@ import com.filbertfilbert.uts.model.Wahana;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyclerViewAdapter.UserViewHolder>
-        implements Filterable {
+public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyclerViewAdapter.UserViewHolder>      {
     private Context context;
     private List<Wahana> wahanaList;
     private List<Wahana> wahanaListFiltered;
@@ -59,40 +58,6 @@ public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyc
         return (wahanaListFiltered != null) ? wahanaListFiltered.size() : 0;
     }
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    wahanaListFiltered = wahanaList;
-                } else {
-                    List<Wahana> filteredList = new ArrayList<>();
-                    for (Wahana wahana : wahanaList) {
-
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        if (wahana.getNamaWahana().toLowerCase().contains(charString.toLowerCase()) ) {
-                            filteredList.add(wahana);
-                        }
-                    }
-
-                    wahanaListFiltered = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = wahanaListFiltered;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                wahanaListFiltered = (ArrayList<Wahana>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
 
     public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ItemWahanaBinding adapterRecyclerViewBinding;

@@ -25,7 +25,7 @@ public class AdminActivity extends AppCompatActivity {
     SwipeRefreshLayout refreshLayout;
     SearchView searchView;
     WahanaRecyclerViewAdapter adapter;
-    @Override
+      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
@@ -45,12 +45,13 @@ public class AdminActivity extends AppCompatActivity {
             }
 
         });
-        btnCancel=findViewById(R.id.btn_cancel);
+        btnCancel=findViewById(R.id.btn_back);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent cancelIntent = new Intent(AdminActivity.this,LoginActivity.class);
-               startActivity(cancelIntent);
+                //Intent untuk kembali ke Activity Login
+               Intent backIntent = new Intent(AdminActivity.this,LoginActivity.class);
+               startActivity(backIntent);
             }
         });
 
@@ -63,19 +64,6 @@ public class AdminActivity extends AppCompatActivity {
         });
 
         getUsers();
-        searchView = findViewById(R.id.search);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                adapter.getFilter().filter(s);
-                return false;
-            }
-        });
     }
 
     private  void getUsers() {

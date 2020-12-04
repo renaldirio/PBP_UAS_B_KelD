@@ -152,7 +152,7 @@ public class UpdateWahanaFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid){
                 super.onPostExecute(aVoid);
-                Toast.makeText(getActivity().getApplicationContext(),"User Updated",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(),"Wahana Updated",Toast.LENGTH_SHORT).show();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.hide(UpdateWahanaFragment.this).commit();
             }
@@ -172,7 +172,7 @@ public class UpdateWahanaFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid){
                 super.onPostExecute(aVoid);
-                Toast.makeText(getActivity().getApplicationContext(),"User Deleted",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(),"Wahana Deleted",Toast.LENGTH_SHORT).show();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.hide(UpdateWahanaFragment.this).commit();
             }

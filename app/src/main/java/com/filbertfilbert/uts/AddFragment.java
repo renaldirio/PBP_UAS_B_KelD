@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,12 +62,33 @@ public class AddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
+        //Button untuk tambah wahana
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addWahana();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.hide(AddFragment.this).commit();
+                final String namaWahana = txtnamaWahana.getText().toString();
+                final String alamatWahana = txtalamatWahana.getText().toString();
+                final String ratingWahana =txtratingWahana.getText().toString();
+                final String hargaWahana = txthargaWahana.getText().toString();
+                //Mengecek apakah inputan kosong atau tidak
+                if(TextUtils.isEmpty(namaWahana)){
+                    txtnamaWahana.setError("Nama wahana boleh kosong");
+                    return;
+                }else if(TextUtils.isEmpty(alamatWahana)){
+                    txtalamatWahana.setError("Alamat wahana boleh kosong");
+                    return;
+                }else if(TextUtils.isEmpty(ratingWahana)){
+                    txtratingWahana.setError("Rating wahana boleh kosong");
+                    return;
+                }else if(TextUtils.isEmpty(hargaWahana)){
+                    txthargaWahana.setError("Harga wahana boleh kosong");
+                    return;
+                }
+                else{
+                    addWahana();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.hide(AddFragment.this).commit();
+                }
             }
 
         });
@@ -93,6 +115,7 @@ public class AddFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Inflate View dan findViewById untuk semua TextInputEditText dan Button
         View view = inflater.inflate(R.layout.fragment_add,container,false);
         txtnamaWahana = view.findViewById(R.id.input_namaWahana);
         txtalamatWahana=view.findViewById(R.id.input_alamatWahana);
@@ -105,6 +128,7 @@ public class AddFragment extends Fragment {
     }
 
     private void addWahana() {
+        //Mengambil data wahana yang telah diinputkan
         final String namaWahana = txtnamaWahana.getText().toString();
         final String alamatWahana = txtalamatWahana.getText().toString();
         final String ratingWahana ="Rating : "+ txtratingWahana.getText().toString();
@@ -112,6 +136,7 @@ public class AddFragment extends Fragment {
         class AddUser extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
+                //Menggunakan setter untuk memasukkan nilai atribut wahana
                 Wahana wahana = new Wahana();
                 wahana.setNamaWahana(namaWahana);
                 wahana.setAlamatWahana(alamatWahana);
@@ -119,12 +144,13 @@ public class AddFragment extends Fragment {
                 wahana.setHargaWahana(hargaWahana);
                 DatabaseClient.getInstance(getActivity().getApplicationContext()).getDatabase()
                         .wahanaDao()
-                        .insert(wahana);
+                        .insert(wahana);// insert wahana
                 return null;
             }
 
             @Override
             protected void onPostExecute (Void aVoid) {
+                //Setelah wahana ditambah, setiap TextInputEditText dibuat menjadi kosong atau "-"
                 super.onPostExecute(aVoid);
                 Toast.makeText(getActivity().getApplicationContext(), "Wahana Ditambah", Toast.LENGTH_LONG).show();
                 txtnamaWahana.setText("-");

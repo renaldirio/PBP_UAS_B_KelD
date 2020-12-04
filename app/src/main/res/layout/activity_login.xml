@@ -65,38 +65,30 @@
             android:backgroundTint="#00BCD4"
             android:text="LOGIN" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="10dp"
-                android:text="Belum punya akun? " />
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
+            android:text="Belum punya akun? " />
 
-            <TextView
-                android:id="@+id/txt_register"
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="	#0065A9"
-                android:layout_marginTop="10dp"
-                android:text="@string/daftar_di_sini" />
-        </LinearLayout>
+        <Button
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#00BCD4"
+        android:text="REGISTER" />
 
-
-            <Button
-                android:id="@+id/btn_admin"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:backgroundTint="#2196F3"
-                android:text="Admin" />
+        <Button
+            android:id="@+id/btn_admin"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:backgroundTint="#2196F3"
+            android:text="Admin" />
         </LinearLayout>
 
 

@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     TextInputEditText txtEmailUser,txtPasswordUser;
-    private Button btnAdmin,btnLogin;
+    private Button btnAdmin,btnLogin,btnRegister;
     FirebaseAuth fauth;
     TextView txtRegister;
 
@@ -34,18 +34,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txtEmailUser = findViewById(R.id.input_email);
         txtPasswordUser = findViewById(R.id.input_password);
-        txtRegister = findViewById(R.id.txt_register);
         fauth = FirebaseAuth.getInstance();
 
-        if(fauth.getCurrentUser() != null){
-            //Jika ada, maka halaman akan langsung berpidah pada MainActivity
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        }
-        txtRegister.setOnClickListener(new View.OnClickListener() {
+        btnRegister = findViewById(R.id.btn_register);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                Intent registerIntent;
+                registerIntent = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(registerIntent);
             }
         });
 
@@ -64,31 +61,42 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = txtEmailUser.getText().toString();
                 String password = txtPasswordUser.getText().toString();
+
+                //Mengecek apakah inputan kosong atau tidak
                 if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     Toast.makeText(LoginActivity.this, "Email or Password cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                //Mengecek apakah inputan password kurang dari 6 karakter
                 if(password.length() < 6){
                     Toast.makeText(LoginActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                //Mengecek apakah inputan email sesuai dengan format yang benar
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     Toast.makeText(LoginActivity.this, "Email Invalid", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                fauth.signInWithEmailAndPassword(email,password).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else {
-                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+
+                    //Melakukan proses login menggunakan firebase authentication
+                    fauth.signInWithEmailAndPassword(email,password).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                //Jika login berhasil maka user akan dibawa ke MainActivity
+                                if(fauth.getCurrentUser().isEmailVerified()){
+                                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                }else{
+                                    Toast.makeText(LoginActivity.this, "Please Verify Your Email", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(LoginActivity.this, "Email or Password is Wrong", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
             }
         });
     }

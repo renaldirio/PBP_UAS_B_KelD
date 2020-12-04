@@ -17,13 +17,13 @@ public class SplashActivity extends AppCompatActivity {
         EasySplashScreen config = new EasySplashScreen(SplashActivity.this)
                 .withFullScreen()
                 .withTargetActivity(LoginActivity.class)
-                .withSplashTimeOut(1000)
-                .withBackgroundColor(Color.parseColor("#000000"))
-                .withAfterLogoText("Wahana Wisata")
-                .withLogo(R.drawable.ic_android_black_24dp)
-                .withFooterText("Kelompok H");
-        config.getAfterLogoTextView().setTextColor(Color.WHITE);
-        config.getFooterTextView().setTextColor(Color.WHITE);
+                .withSplashTimeOut(3000)
+                .withBackgroundColor(Color.parseColor("#FFFFFF"))
+                .withAfterLogoText("WOWHANA")
+                .withLogo(R.drawable.ferriswheel)
+                .withFooterText("Kelompok D");
+        config.getAfterLogoTextView().setTextColor(Color.BLACK);
+        config.getFooterTextView().setTextColor(Color.BLACK);
         View easySplashScreen = config.create();
         setContentView(easySplashScreen);
     }

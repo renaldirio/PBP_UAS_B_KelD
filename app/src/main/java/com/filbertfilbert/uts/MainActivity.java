@@ -26,6 +26,8 @@ import com.filbertfilbert.uts.database.DatabaseClient;
 import com.filbertfilbert.uts.model.Wahana;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -34,102 +36,79 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Wahana> ListWahana;
     SwipeRefreshLayout refreshLayout;
-    SearchView searchView;
     Button btnProfile,btnFindme;
     private RecyclerView recyclerView;
     private WahanaRecyclerViewAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ItemWahanaBinding binding;
-    Wahana whn;
-
+    FirebaseAuth fauth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
           setContentView(R.layout.activity_main);
+          recyclerView = findViewById(R.id.recycler_view_wahana);
+            adapter = new WahanaRecyclerViewAdapter(MainActivity.this, ListWahana);
+            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(adapter);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String CHANNEL_ID = "Channel 1";
+                CharSequence name = "Channel 1";
+                String description = "This is Channel 1";
 
 
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-//        binding..setLayoutManager(new LinearLayoutManager(this));
-//        binding.recyclerViewWahana.setHasFixedSize(true);
-//
-//        //get data mahasiswa
-//        ListWahana = new ObservableArrayList<>();
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+                channel.setDescription(description);
 
-        //recycler view
-        recyclerView = findViewById(R.id.recycler_view_wahana);
-        adapter = new WahanaRecyclerViewAdapter(MainActivity.this, ListWahana);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
 
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String CHANNEL_ID = "Channel 1";
-            CharSequence name = "Channel 1";
-            String description = "This is Channel 1";
-
-
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-
-            FirebaseMessaging.getInstance().subscribeToTopic("news")
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            String mag = "Successful";
-                            if (!task.isSuccessful()) {
-                                mag = "failed";
+                FirebaseMessaging.getInstance().subscribeToTopic("news")
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                String mag = "Successful";
+                                if (!task.isSuccessful()) {
+                                    mag = "failed";
+                                }
+                                Toast.makeText(MainActivity.this, mag, Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(MainActivity.this, mag, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-
-        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getUsers();
-                refreshLayout.setRefreshing(false);
-            }
-        });
-
-        getUsers();
-        searchView = findViewById(R.id.search);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
+                        });
             }
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                adapter.getFilter().filter(s);
-                return false;
-            }
-        });
+            refreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
+            refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    getUsers();
+                    refreshLayout.setRefreshing(false);
+                }
+            });
+
+            getUsers();
 
 
-        btnProfile=findViewById(R.id.btn_profile);
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,ProfileActivity.class));
-            }
-        });
-        btnFindme=findViewById(R.id.btn_find_me);
-        btnFindme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity( new Intent(MainActivity.this,FindMeActivity.class));
-            }
-        });
+            btnProfile=findViewById(R.id.btn_profile);
+            btnProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+                }
+            });
+            btnFindme=findViewById(R.id.btn_find_me);
+            btnFindme.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity( new Intent(MainActivity.this,FindMeActivity.class));
+                }
+            });
+
+
+
+
     }
 
     private  void getUsers() {

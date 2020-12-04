@@ -142,27 +142,8 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
         mapboxMap.setStyle(getString(R.string.navigation_guidance_day), new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
-                enableLocationComponent(style);
                 addDestinationIconSymbolLayer(style);
-
-                LatLng point = new LatLng(-6.128151,106.844935);
-                Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-                Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-                        locationComponent.getLastKnownLocation().getLatitude());
-
-                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-                        new CameraPosition.Builder()
-                                .target(point)
-                                .zoom(14)
-                                .build()),3000);
-                GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
-                if (source != null) {
-                    source.setGeoJson(Feature.fromGeometry(destinationPoint));
-                }
-                getRoute(originPoint,destinationPoint);
-                button.setEnabled(true);
-                button.setBackgroundResource(R.color.mapboxBlue);
-
+                enableLocationComponent(style);
                 mapboxMap.addOnMapClickListener(FindMeActivity.this);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -213,20 +194,6 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
         return true;
     }
 
-    public void tampilLokasi(@NonNull LatLng point){
-        Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-                locationComponent.getLastKnownLocation().getLatitude());
-
-        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
-        if (source != null) {
-            source.setGeoJson(Feature.fromGeometry(destinationPoint));
-        }
-        getRoute(originPoint,destinationPoint);
-        button.setEnabled(true);
-        button.setBackgroundResource(R.color.mapboxBlue);
-    }
-
     private void getRoute(Point origin, Point destination) {
         NavigationRoute.builder(this)
                 .accessToken(Mapbox.getAccessToken())
@@ -275,6 +242,24 @@ public class FindMeActivity extends AppCompatActivity implements OnMapReadyCallb
             locationComponent.setLocationComponentEnabled(true);
             // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING);
+            LatLng point = new LatLng(-6.128151,106.844935);
+            Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+            Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
+                    locationComponent.getLastKnownLocation().getLatitude());
+
+            mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                    new CameraPosition.Builder()
+                            .target(point)
+                            .zoom(14)
+                            .build()),3000);
+            GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
+            if (source != null) {
+                source.setGeoJson(Feature.fromGeometry(destinationPoint));
+            }
+            getRoute(originPoint,destinationPoint);
+            button.setEnabled(true);
+            button.setBackgroundResource(R.color.mapboxBlue);
+
         } else {
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);

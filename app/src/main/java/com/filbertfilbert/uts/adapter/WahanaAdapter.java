@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.filbertfilbert.uts.R;
 import com.filbertfilbert.uts.model.WahanaModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

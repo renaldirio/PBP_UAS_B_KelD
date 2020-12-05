@@ -15,14 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditProfileActivity"></activity>
-        <activity android:name=".FindMeActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".AdminActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name="com.filbertfilbert.uts.EditProfileActivity"></activity>
+        <activity android:name="com.filbertfilbert.uts.FindMeActivity" />
+        <activity android:name="com.filbertfilbert.uts.ProfileActivity" />
+        <activity android:name="com.filbertfilbert.uts.RegisterActivity" />
+        <activity android:name="com.filbertfilbert.uts.AdminActivity" />
+        <activity android:name="com.filbertfilbert.uts.LoginActivity" />
+        <activity android:name="com.filbertfilbert.uts.MainActivity" />
+        <activity android:name="com.filbertfilbert.uts.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,7 +40,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <service android:name=".MessagingServices">
+        <service android:name="com.filbertfilbert.uts.MessagingServices">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.filbertfilbert.uts.API.UtilApi;
 import com.filbertfilbert.uts.adapter.WahanaAdapter;
-import com.filbertfilbert.uts.adapter.WahanaRecyclerViewAdapter;
 import com.filbertfilbert.uts.database.DatabaseClient;
 import com.filbertfilbert.uts.model.Wahana;
 import com.filbertfilbert.uts.model.WahanaModel;
@@ -88,7 +87,7 @@ public class AdminActivity extends AppCompatActivity {
             }
 
         });
-        btnCancel=findViewById(R.id.btn_cancel);
+        btnCancel=findViewById(R.id.btn_back);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +95,7 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(cancelIntent);
             }
         });
+
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -106,20 +106,20 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        //     getUsers();
-      //  searchView = findViewById(R.id.search);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-//                adapter.getFilter().filter(s);
-                return false;
-            }
-        });
+//        //     getUsers();
+//        searchView = findViewById(R.id.);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+////                adapter.getFilter().filter(s);
+//                return false;
+//            }
+//        });
     }
     private void initViews() {
         recyclerView = (RecyclerView) findViewById(R.id.admin_rv);

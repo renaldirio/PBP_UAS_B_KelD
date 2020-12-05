@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +17,6 @@ import com.filbertfilbert.uts.UpdateWahanaFragment;
 import com.filbertfilbert.uts.databinding.ItemWahanaBinding;
 import com.filbertfilbert.uts.model.Wahana;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WahanaRecyclerViewAdapter  extends RecyclerView.Adapter<WahanaRecyclerViewAdapter.UserViewHolder>      {

@@ -6,52 +6,52 @@
     android:layout_height="match_parent"
     android:id="@+id/admin_layout">
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:background="@android:color/white"
-         android:orientation="vertical"
-         android:gravity="center">
-         <TextView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:id="@+id/textView"
-             android:textAlignment="center"
-             android:text="Daftar Wahana"
-             style="@style/TextAppearance.MaterialComponents.Headline4" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textAlignment="center"
+            android:text="Daftar Wahana"
+            style="@style/TextAppearance.MaterialComponents.Headline4" />
 
-         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-             android:id="@+id/swipe_refresh"
-             android:layout_width="match_parent"
-             android:layout_height="480dp"
-             android:layout_marginStart="4dp"
-             android:layout_marginTop="16dp">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp">
 
-             <androidx.recyclerview.widget.RecyclerView
-                 android:id="@+id/admin_rv"
-                 android:layout_width="0dp"
-                 android:layout_height="0dp"
-                 tools:listitem="@layout/item_wahana" />
-         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-         <LinearLayout
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:orientation="horizontal">
-             <Button
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:id="@+id/btn_addWahana"
-                 android:text="Add"
-                 android:backgroundTint="#2196F3"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/admin_rv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:listitem="@layout/item_wahana" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_addWahana"
+                android:text="Add"
+                android:backgroundTint="#2196F3"/>
 
-             <Button
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:id="@+id/btn_back"
-                 android:text="Back"
-                 android:layout_marginLeft="130dp"
-                 android:backgroundTint="#00BCD4"/>
-         </LinearLayout>
-     </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_back"
+                android:text="Back"
+                android:layout_marginLeft="130dp"
+                android:backgroundTint="#00BCD4"/>
+        </LinearLayout>
+    </LinearLayout>
 
-    </FrameLayout>
+</FrameLayout>

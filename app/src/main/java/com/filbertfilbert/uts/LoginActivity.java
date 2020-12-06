@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         txtEmailUser = findViewById(R.id.input_email);
         txtPasswordUser = findViewById(R.id.input_password);
         fauth = FirebaseAuth.getInstance();
-        String fuser = fauth.getCurrentUser().getEmail();
 
         btnRegister = findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(new View.OnClickListener() {

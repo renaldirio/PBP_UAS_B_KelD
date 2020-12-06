@@ -7,4 +7,10 @@
     <string name="mapbox_access_token">pk.eyJ1IjoiZmlsYmVydDk5MDEiLCJhIjoiY2tmbWpqbnRhMTMyMTJ6cXA1bnplNHRreiJ9.1rFtvDRNY-voxj7Z7UBkMw</string>
     <string name="user_location_permission_explanation">This app needs location permissions to show its functionality.</string>
     <string name="user_location_permission_not_granted">You didn\'t grant location permissions.</string>
+    <string name="title_activity_wahana">WahanaActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

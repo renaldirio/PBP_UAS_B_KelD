@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.filbertfilbert.uts">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.type.watch" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -15,14 +19,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.filbertfilbert.uts.EditProfileActivity"></activity>
-        <activity android:name="com.filbertfilbert.uts.FindMeActivity" />
-        <activity android:name="com.filbertfilbert.uts.ProfileActivity" />
-        <activity android:name="com.filbertfilbert.uts.RegisterActivity" />
-        <activity android:name="com.filbertfilbert.uts.AdminActivity" />
-        <activity android:name="com.filbertfilbert.uts.LoginActivity" />
-        <activity android:name="com.filbertfilbert.uts.MainActivity" />
-        <activity android:name="com.filbertfilbert.uts.SplashActivity">
+        <activity android:name=".ui.ShowListFasilitasActivity"></activity>
+        <activity android:name=".ui.CreateFasilitasActivity" />
+        <activity android:name=".ui.ShowListWahanaAcivity" />
+        <activity android:name=".ui.CreateWahanaActivity" />
+        <activity android:name=".ui.FasilitasActivity" />
+        <activity
+            android:name=".ui.WahanaActivity"
+            android:label="@string/title_activity_wahana" />
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".user.EditProfileActivity" />
+        <activity android:name=".ui.FindMeActivity" />
+        <activity android:name=".user.ProfileActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,7 +52,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <service android:name="com.filbertfilbert.uts.MessagingServices">
+        <service android:name=".MessagingServices">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -1,4 +1,4 @@
-package com.filbertfilbert.uts;
+package com.filbertfilbert.uts.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +29,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.filbertfilbert.uts.LoginActivity;
+import com.filbertfilbert.uts.MainActivity;
+import com.filbertfilbert.uts.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -116,12 +119,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this,MainActivity.class));
-            }
-        });
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 createNotificationChannel();
                 addNotification();
-                startActivity(new Intent(ProfileActivity.this,LoginActivity.class));
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
                 finish();
             }
         });
@@ -156,7 +153,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent editProfile = new Intent(ProfileActivity.this,EditProfileActivity.class);
+                Intent editProfile = new Intent(ProfileActivity.this, EditProfileActivity.class);
                 startActivity(editProfile);
             }
         });

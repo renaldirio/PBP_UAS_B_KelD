@@ -82,14 +82,7 @@
         android:backgroundTint="#00BCD4"
         android:text="REGISTER" />
 
-        <Button
-            android:id="@+id/btn_admin"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:backgroundTint="#2196F3"
-            android:text="Admin" />
-        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

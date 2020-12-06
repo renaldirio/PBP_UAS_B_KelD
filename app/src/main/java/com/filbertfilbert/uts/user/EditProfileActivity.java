@@ -1,4 +1,4 @@
-package com.filbertfilbert.uts;
+package com.filbertfilbert.uts.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.filbertfilbert.uts.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,7 +82,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 user.put("Nomor Telefon",txtNomorTelpUser.getText().toString());
                 documentReference.update(user);
                 Toast.makeText(EditProfileActivity.this, "Profile is Changed", Toast.LENGTH_SHORT).show();
-                Intent profileIntent = new Intent(EditProfileActivity.this,ProfileActivity.class);
+                Intent profileIntent = new Intent(EditProfileActivity.this, ProfileActivity.class);
                 startActivity(profileIntent);
                 finish();
             }

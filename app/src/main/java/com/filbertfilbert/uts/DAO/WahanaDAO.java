@@ -1,34 +1,35 @@
-package com.filbertfilbert.uts.model;
+package com.filbertfilbert.uts.DAO;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WahanaModel {
+public class WahanaDAO {
 
     @SerializedName("id")
-    @Expose
     private int id;
+
     @SerializedName("nama_wahana")
-    @Expose
-    private String namaWahana;
+    private String nama_wahana;
+
     @SerializedName("lokasi")
-    @Expose
     private String lokasi;
+
     @SerializedName("rating")
-    @Expose
     private String rating;
+
     @SerializedName("deskripsi")
-    @Expose
     private String deskripsi;
+
     @SerializedName("foto")
-    @Expose
     private String foto;
-    @SerializedName("created_at")
-    @Expose
-    private String createdAt;
-    @SerializedName("updated_at")
-    @Expose
-    private String updatedAt;
+
+    public WahanaDAO(int id, String nama_wahana, String lokasi, String rating, String deskripsi, String foto) {
+        this.id = id;
+        this.nama_wahana = nama_wahana;
+        this.lokasi = lokasi;
+        this.rating = rating;
+        this.deskripsi = deskripsi;
+        this.foto = foto;
+    }
 
     public int getId() {
         return id;
@@ -38,12 +39,12 @@ public class WahanaModel {
         this.id = id;
     }
 
-    public String getNamaWahana() {
-        return namaWahana;
+    public String getNama_wahana() {
+        return nama_wahana;
     }
 
-    public void setNamaWahana(String namaWahana) {
-        this.namaWahana = namaWahana;
+    public void setNama_wahana(String nama_wahana) {
+        this.nama_wahana = nama_wahana;
     }
 
     public String getLokasi() {
@@ -77,22 +78,4 @@ public class WahanaModel {
     public void setFoto(String foto) {
         this.foto = foto;
     }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-
 }

@@ -42,15 +42,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnAdmin = findViewById(R.id.btn_admin);
-        btnAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent adminIntent;
-                adminIntent = new Intent(LoginActivity.this,AdminActivity.class);
-                startActivity(adminIntent);
-            }
-        });
         btnLogin=findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +66,11 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Email Invalid", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                if(txtEmailUser.getText().toString().equalsIgnoreCase("admin@gmail.com")
+                && txtPasswordUser.getText().toString().equalsIgnoreCase("admin123")){
+                    Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                    startActivity(intent);
+                }else{
                     //Melakukan proses login menggunakan firebase authentication
                     fauth.signInWithEmailAndPassword(email,password).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                         @Override
@@ -93,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
+                }
             }
         });
     }

@@ -25,17 +25,15 @@ public interface ApiInterface {
     @POST("wahana/add")
     @FormUrlEncoded
     Call<WahanaResponse> createWahana(@Field("nama_wahana")String nama_wahana, @Field("lokasi")String lokasi,
-                                      @Field("rating")String rating, @Field("deskripsi")String deskripsi,
-                                      @Field("foto")String foto);
+                                      @Field("rating")String rating, @Field("deskripsi")String deskripsi);
 
-    @POST("wahana/{id}")
+    @POST("wahana/update/{id}")
     @FormUrlEncoded
-    Call<WahanaResponse> updateWahana(@Field("nama_wahana")String nama_wahana, @Field("lokasi")String lokasi,
-                                      @Field("rating")String rating, @Field("deskripsi")String deskripsi,
-                                      @Field("foto")String foto);
+    Call<WahanaResponse> updateWahana(@Path("id") int id,@Field("nama_wahana")String nama_wahana, @Field("lokasi")String lokasi,
+                                      @Field("rating")String rating, @Field("deskripsi")String deskripsi);
 
-    @POST("wahana/{id}")
-    Call<WahanaResponse> deleteWahana(@Path("id")String id);
+    @POST("wahana/delete/{id}")
+    Call<WahanaResponse> deleteWahana(@Path("id")int id);
 
 //    Call<WahanaResponse> createWahana(String toString, String toString1, String toString2, String toString3, String toString4);
 }

@@ -30,7 +30,7 @@ public class WahanaRecyclerAdapter extends RecyclerView.Adapter <WahanaRecyclerA
     private List<WahanaDAO> dataList;
    // private List<WahanaDAO> filteredDataList;
     private Context context;
-
+    public String isAdmin;
     public WahanaRecyclerAdapter(List<WahanaDAO> dataList, Context context) {
         this.dataList = dataList;
      //   this.filteredDataList = dataList;
@@ -68,6 +68,7 @@ public class WahanaRecyclerAdapter extends RecyclerView.Adapter <WahanaRecyclerA
 
                 Bundle args = new Bundle();
                 args.putInt("id", whn.getId());
+                args.putString("isAdmin",isAdmin);
                 dialog.setArguments(args);
             }
         });

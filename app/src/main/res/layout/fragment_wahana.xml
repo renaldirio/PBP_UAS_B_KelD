@@ -162,6 +162,38 @@
                             android:textColor="@color/black"
                             android:textSize="20dp"/>
                     </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/panelEditDelete"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/mapboxWhite"
+                        android:padding="20dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDelete"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="DELETE"
+                            android:textColor="@color/black"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="80dp"
+                            android:backgroundTint="@color/mapboxPink"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEdit"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="EDIT"
+                            android:textColor="@color/black"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/mapbox_blue"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

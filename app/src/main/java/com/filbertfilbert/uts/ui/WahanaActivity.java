@@ -107,6 +107,7 @@ public class WahanaActivity extends AppCompatActivity {
     private void generateDataList(List<WahanaDAO> WahanaList) {
         recyclerView = findViewById(R.id.userRecyclerView);
         recyclerAdapter = new WahanaRecyclerAdapter(WahanaList, this);
+        recyclerAdapter.isAdmin="false";
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);

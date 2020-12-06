@@ -104,7 +104,7 @@ public class CreateWahanaActivity extends AppCompatActivity {
     private void saveWahana() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<WahanaResponse> add = apiService.createWahana(etNama_wahana.getText().toString(), etLokasi.getText().toString(),
-                etRating.getText().toString(), etDeskripsi.getText().toString(), etFoto.getText().toString());
+                etRating.getText().toString(), etDeskripsi.getText().toString());
 
         add.enqueue(new Callback<WahanaResponse>() {
             @Override

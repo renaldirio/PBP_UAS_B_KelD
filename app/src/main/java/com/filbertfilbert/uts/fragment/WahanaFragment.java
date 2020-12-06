@@ -2,17 +2,22 @@ package com.filbertfilbert.uts.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +27,8 @@ import com.filbertfilbert.uts.API.ApiClient;
 import com.filbertfilbert.uts.API.ApiInterface;
 import com.filbertfilbert.uts.R;
 import com.filbertfilbert.uts.response.WahanaResponse;
+import com.filbertfilbert.uts.ui.EditWahanaActivity;
+import com.filbertfilbert.uts.ui.ShowListWahanaAcivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,11 +37,13 @@ import retrofit2.Response;
 public class WahanaFragment extends DialogFragment {
 
     private TextView twNama_wahana, twLokasi, twRating, twDeskripsi;
-    private String sNama_wahana, sLokasi, sRating, sFoto, sDeskripsi;
+    private String sNama_wahana, sLokasi, sRating, sFoto, sDeskripsi,isAdmin;
     private int sIdWahana;
     private ImageView twFoto;
     private ImageButton ibClose;
+    private Button btnDelete,btnEdit;
     private ProgressDialog progressDialog;
+    private LinearLayout panelEditDelete;
 
     public static WahanaFragment newInstance() {return new WahanaFragment();}
 
@@ -65,11 +74,37 @@ public class WahanaFragment extends DialogFragment {
         twRating = view.findViewById(R.id.twRating);
         twDeskripsi = view.findViewById(R.id.twDeskripsi);
         twFoto = view.findViewById(R.id.twFoto);
+        btnDelete = view.findViewById(R.id.btnDelete);
+        btnEdit = view.findViewById(R.id.btnEdit);
+        panelEditDelete = view.findViewById(R.id.panelEditDelete);
 
         sIdWahana = getArguments().getInt("id", 0);
-
+        isAdmin = getArguments().getString("isAdmin");
+        if(isAdmin.equalsIgnoreCase("false")){
+            panelEditDelete.setVisibility(View.GONE);
+        }
         loadWahanaById(sIdWahana);
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog diaBox = KonfirmasiHapus();
+                diaBox.show();
+            }
+        });
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), EditWahanaActivity.class);
+                i.putExtra("id",String.valueOf(sIdWahana));
+                i.putExtra("namaWahana",sNama_wahana);
+                i.putExtra("lokasi",sLokasi);
+                i.putExtra("rating",sRating);
+                i.putExtra("deskripsi",sDeskripsi);
+                startActivity(i);
+            }
+        });
         return view;
     }
 
@@ -95,7 +130,7 @@ public class WahanaFragment extends DialogFragment {
 //                        .load("https://uaspbp.000webhostapp.com/public_html"+sFoto)
 //                        .apply(new RequestOptions().centerCrop())
 //                        .into(twFoto);
-//                progressDialog.dismiss();
+                progressDialog.dismiss();
             }
 
             @Override
@@ -106,4 +141,45 @@ public class WahanaFragment extends DialogFragment {
         });
     }
 
+    private AlertDialog KonfirmasiHapus()
+    {
+        AlertDialog diaBox = new AlertDialog.Builder(getContext())
+                // set message, title, and icon
+                .setTitle("Konfirmasi")
+                .setMessage("Yakin ingin menghapus data ini?")
+
+                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                        Call<WahanaResponse> delete = apiService.deleteWahana(sIdWahana);
+
+                        delete.enqueue(new Callback<WahanaResponse>() {
+                            @Override
+                            public void onResponse(Call<WahanaResponse> call, Response<WahanaResponse> response) {
+                                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(getContext(), ShowListWahanaAcivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onFailure(Call<WahanaResponse> call, Throwable t) {
+                                Toast.makeText(getContext(), "Gagal menghapus user", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                })
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+
+        return diaBox;
+    }
 }

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:text="Edit Wahana"
+            android:text="Edit Fasilitas"
             android:textColor="@color/black"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -55,14 +55,14 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/twNama_wahana"
+                    android:id="@+id/twNama_fasilitas"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:hint="Nama Wahana">
+                    android:hint="Nama Fasilitas">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etNama_Wahana"
+                        android:id="@+id/etNama_fasilitas"
                         android:inputType="text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -83,26 +83,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/twRating"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:hint="Rating">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etRating"
-                        android:inputType="text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/twDeskripsi"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:hint="Deskripsi Wahana">
+                    android:hint="Deskripsi Fasilitas">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDeskripsi"
                         android:inputType="text"

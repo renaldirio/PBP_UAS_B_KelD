@@ -21,22 +21,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
 
             <ImageButton
                 android:id="@+id/twFoto"
                 android:layout_width="375dp"
                 android:layout_height="150dp"
-                android:backgroundTint="@color/mapbox_plugins_green"/>
-
+                android:backgroundTint="@color/mapbox_navigation_route_layer_blue"
+                />
             <TextView
-                android:id="@+id/twNama_wahana"
+                android:id="@+id/twNama_fasilitas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:layout_gravity="center"
-                android:hint="Nama Wahana"
+                android:hint="Nama Fasilitas"
                 android:textColor="@color/black"/>
 
         </LinearLayout>

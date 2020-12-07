@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
     Button btnHome, btnCamera,btnGallery,btnLogout,btnEditProfile;
     String userID,currentPhotoPath;
     ImageView fotoProfil;
+    ImageButton ibBack;
     StorageReference storageReference;
     private static String CHANNEL_ID = "Channel 1";
 
@@ -83,6 +85,13 @@ public class ProfileActivity extends AppCompatActivity {
         txtAlamatUser = findViewById(R.id.txtAlamatUser);
         txtNomorTelpUser = findViewById(R.id.txtNomorTelpUser);
 
+        ibBack = findViewById(R.id.ibBack);
+        ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         //Inisialisasi Layanan Firebase
         fauth = FirebaseAuth.getInstance();
         fstore= FirebaseFirestore.getInstance();

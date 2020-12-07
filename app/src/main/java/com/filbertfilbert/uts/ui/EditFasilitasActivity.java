@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.filbertfilbert.uts.API.ApiClient;
 import com.filbertfilbert.uts.API.ApiInterface;
 import com.filbertfilbert.uts.R;
+import com.filbertfilbert.uts.response.FasilitasResponse;
 import com.filbertfilbert.uts.response.WahanaResponse;
 import com.google.android.material.button.MaterialButton;
 
@@ -20,17 +21,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditWahanaActivity extends AppCompatActivity {
+public class EditFasilitasActivity extends AppCompatActivity {
+
 
     private ImageButton ibBack;
-    private String sIdWahana, sNama_wahana, sLokasi, sRating, sDeskripsi;
-    private EditText etNama_wahana, etLokasi, etRating, etDeskripsi, etFoto;
+    private String sIdFasilitas, sNama_fasilitas, sLokasi, sRating, sDeskripsi;
+    private EditText etNama_fasilitas, etLokasi, etRating, etDeskripsi, etFoto;
     private MaterialButton btnCancel, btnEdit;
     private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_wahana);
+        setContentView(R.layout.activity_edit_fasilitas);
 
         progressDialog = new ProgressDialog(this);
 
@@ -42,23 +44,20 @@ public class EditWahanaActivity extends AppCompatActivity {
             }
         });
 
-        etNama_wahana = findViewById(R.id.etNama_Wahana);
+        etNama_fasilitas = findViewById(R.id.etNama_fasilitas);
         etLokasi = findViewById(R.id.etLokasi);
-        etRating = findViewById(R.id.etRating);
         etDeskripsi = findViewById(R.id.etDeskripsi);
         btnCancel = findViewById(R.id.btnCancel);
         btnEdit = findViewById(R.id.btnEdit);
 
         Intent i = getIntent();
-        sIdWahana = i.getStringExtra("id");
-        sNama_wahana = i.getStringExtra("namaWahana");
+        sIdFasilitas = i.getStringExtra("id");
+        sNama_fasilitas = i.getStringExtra("namaFasilitas");
         sLokasi = i.getStringExtra("lokasi");
-        sRating = i.getStringExtra("rating");
         sDeskripsi = i.getStringExtra("deskripsi");
 
-        etNama_wahana.setText(sNama_wahana);
+        etNama_fasilitas.setText(sNama_fasilitas);
         etLokasi.setText(sLokasi);
-        etRating.setText(sRating);
         etDeskripsi.setText(sDeskripsi);
 
 
@@ -73,53 +72,47 @@ public class EditWahanaActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(etNama_wahana.getText().toString().isEmpty())
+                if(etNama_fasilitas.getText().toString().isEmpty())
                 {
-                    etNama_wahana.setError("Isikan dengan benar");
-                    etNama_wahana.requestFocus();
+                    etNama_fasilitas.setError("Isikan dengan benar");
+                    etNama_fasilitas.requestFocus();
                 }
                 else if(etLokasi.getText().toString().isEmpty())
                 {
                     etLokasi.setError("Isikan dengan benar");
                     etLokasi.requestFocus();
                 }
-                else if(etRating.getText().toString().isEmpty())
-                {
-                    etRating.setError("Isikan dengan benar");
-                    etRating.requestFocus();
-                }
                 else if(etDeskripsi.getText().toString().isEmpty())
                 {
                     etDeskripsi.setError("Isikan dengan benar");
                     etDeskripsi.requestFocus();
                 }
-
                 else
                 {
                     progressDialog.show();
-                    saveWahana();
+                    saveFasiitas();
                 }
             }
         });
     }
 
-    private void saveWahana() {
+    private void saveFasiitas() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<WahanaResponse> update = apiService.updateWahana(Integer.parseInt(sIdWahana),etNama_wahana.getText().toString(), etLokasi.getText().toString(),
-                etRating.getText().toString(), etDeskripsi.getText().toString());
+        Call<FasilitasResponse> update = apiService.updateFasilitas(Integer.parseInt(sIdFasilitas),etNama_fasilitas.getText().toString(), etLokasi.getText().toString(),
+                etDeskripsi.getText().toString());
 
-        update.enqueue(new Callback<WahanaResponse>() {
+        update.enqueue(new Callback<FasilitasResponse>() {
             @Override
-            public void onResponse(Call<WahanaResponse> call, Response<WahanaResponse> response) {
-                Toast.makeText(EditWahanaActivity.this, "Berhasil edit wahana", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<FasilitasResponse> call, Response<FasilitasResponse> response) {
+                Toast.makeText(EditFasilitasActivity.this, "Berhasil edit fasilitas", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
-                Intent i = new Intent(EditWahanaActivity.this, ShowListWahanaAcivity.class);
+                Intent i = new Intent(EditFasilitasActivity.this, ShowListFasilitasActivity.class);
                 startActivity(i);
             }
 
             @Override
-            public void onFailure(Call<WahanaResponse> call, Throwable t) {
-                Toast.makeText(EditWahanaActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<FasilitasResponse> call, Throwable t) {
+                Toast.makeText(EditFasilitasActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });

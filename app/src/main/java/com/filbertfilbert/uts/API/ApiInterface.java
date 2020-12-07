@@ -1,6 +1,8 @@
 package com.filbertfilbert.uts.API;
 
+import com.filbertfilbert.uts.DAO.FasilitasDAO;
 import com.filbertfilbert.uts.DAO.WahanaDAO;
+import com.filbertfilbert.uts.response.FasilitasResponse;
 import com.filbertfilbert.uts.response.WahanaResponse;
 
 import java.util.List;
@@ -35,5 +37,25 @@ public interface ApiInterface {
     @POST("wahana/delete/{id}")
     Call<WahanaResponse> deleteWahana(@Path("id")int id);
 
-//    Call<WahanaResponse> createWahana(String toString, String toString1, String toString2, String toString3, String toString4);
+/////////////////////////////////////////////////// FASILITAS
+
+    @GET("fasilitas")
+    Call<List<FasilitasDAO>> getAllFasilitas();
+
+    @GET("fasilitas/{id}")
+    Call<FasilitasResponse> getFasilitasById(@Path("id")int id,
+                                             @Query("data")String data);
+
+    @POST("fasilitas/add")
+    @FormUrlEncoded
+    Call<FasilitasResponse> createFasilitas(@Field("nama_fasilitas")String nama_fasilitas, @Field("lokasi")String lokasi,
+                                      @Field("deskripsi")String deskripsi);
+
+    @POST("fasilitas/update/{id}")
+    @FormUrlEncoded
+    Call<FasilitasResponse> updateFasilitas(@Path("id") int id,@Field("nama_fasilitas")String nama_fasilitas, @Field("lokasi")String lokasi,
+                                      @Field("deskripsi")String deskripsi);
+
+    @POST("fasilitas/delete/{id}")
+    Call<FasilitasResponse> deleteFasilitas(@Path("id")int id);
 }

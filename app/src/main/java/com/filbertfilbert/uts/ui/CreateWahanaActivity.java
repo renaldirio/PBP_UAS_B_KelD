@@ -16,6 +16,10 @@ import android.widget.Toast;
 import com.filbertfilbert.uts.API.ApiClient;
 import com.filbertfilbert.uts.API.ApiInterface;
 import com.filbertfilbert.uts.R;
+import com.filbertfilbert.uts.UnitTestWahana.ActivityUtil;
+import com.filbertfilbert.uts.UnitTestWahana.WahanaPresenter;
+import com.filbertfilbert.uts.UnitTestWahana.WahanaService;
+import com.filbertfilbert.uts.UnitTestWahana.WahanaView;
 import com.filbertfilbert.uts.response.WahanaResponse;
 import com.google.android.material.button.MaterialButton;
 
@@ -25,11 +29,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateWahanaActivity extends AppCompatActivity {
+public class CreateWahanaActivity extends AppCompatActivity implements WahanaView {
     private ImageButton ibBack;
     private EditText etNama_wahana, etLokasi, etRating, etDeskripsi, etFoto;
     private MaterialButton btnCancel, btnCreate;
     private ProgressDialog progressDialog;
+    private WahanaPresenter presenter;
 
 
     @Override
@@ -37,7 +42,7 @@ public class CreateWahanaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_wahana);
 
-        progressDialog = new ProgressDialog(this);
+
 
         ibBack = findViewById(R.id.ibBack);
         ibBack.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +56,7 @@ public class CreateWahanaActivity extends AppCompatActivity {
         etLokasi = findViewById(R.id.etLokasi);
         etRating = findViewById(R.id.etRating);
         etDeskripsi = findViewById(R.id.etDeskripsi);
-        etFoto = findViewById(R.id.etFoto);
+        presenter=new WahanaPresenter(this, new WahanaService());
         btnCancel = findViewById(R.id.btnCancel);
         btnCreate = findViewById(R.id.btnCreate);
 
@@ -66,37 +71,9 @@ public class CreateWahanaActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(etNama_wahana.getText().toString().isEmpty())
-                {
-                    etNama_wahana.setError("Isikan dengan benar");
-                    etNama_wahana.requestFocus();
-                }
-                else if(etLokasi.getText().toString().isEmpty())
-                {
-                    etLokasi.setError("Isikan dengan benar");
-                    etLokasi.requestFocus();
-                }
-                else if(etRating.getText().toString().isEmpty())
-                {
-                    etRating.setError("Isikan dengan benar");
-                    etRating.requestFocus();
-                }
-                else if(etDeskripsi.getText().toString().isEmpty())
-                {
-                    etDeskripsi.setError("Isikan dengan benar");
-                    etDeskripsi.requestFocus();
-                }
+                    presenter.onLoginClicked();
 
-                else if(etFoto.getText().toString().isEmpty())
-                {
-                    etFoto.setError("Isikan dengan benar");
-                    etFoto.requestFocus();
-                }
-                else
-                {
-                    progressDialog.show();
-                    saveWahana();
-                }
+
             }
         });
     }
@@ -110,15 +87,70 @@ public class CreateWahanaActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<WahanaResponse> call, Response<WahanaResponse> response) {
                 Toast.makeText(CreateWahanaActivity.this, "Berhasil menambah user", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
+
                 onBackPressed();
             }
 
             @Override
             public void onFailure(Call<WahanaResponse> call, Throwable t) {
                 Toast.makeText(CreateWahanaActivity.this, "Gagal menambah user", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
+
             }
         });
+    }
+
+    @Override
+    public String getNamaWahana() {
+        return etNama_wahana.getText().toString();
+    }
+
+    @Override
+    public String getLokasi() {
+        return etLokasi.getText().toString();
+    }
+
+    @Override
+    public String getRating() {
+        return etRating.getText().toString();
+    }
+
+    @Override
+    public String getDeskripsi() {
+        return etDeskripsi.getText().toString();
+    }
+
+    @Override
+    public void showNamaWahanaError(String message) {
+        etNama_wahana.setError(message);
+    }
+
+    @Override
+    public void showLokasiError(String message) {
+        etLokasi.setError(message);
+    }
+
+    @Override
+    public void showRatingError(String message) {
+        etRating.setError(message);
+    }
+
+    @Override
+    public void showDeskripsiError(String message) {
+        etDeskripsi.setError(message);
+    }
+
+    @Override
+    public void startMainActivity() {
+        new ActivityUtil(this).startMainActivity();
+    }
+
+    @Override
+    public void showLoginError(String message) {
+
+    }
+
+    @Override
+    public void showErrorResponse(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
